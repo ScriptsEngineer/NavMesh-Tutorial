@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlayerController : MonoBehaviour {
 
 	private Camera cam;
 
 	private NavMeshAgent agent;
+
+	public ThirdPersonCharacter character;
+
+	private void Start() {
+		agent.updateRotation = false;
+	}
 
 	private void Awake() {
 		agent = GetComponent<NavMeshAgent>();
@@ -26,5 +33,11 @@ public class PlayerController : MonoBehaviour {
 			}
 
 		}
+		if(agent.remainingDistance > agent.stoppingDistance){
+			character.Move(agent.desiredVelocity, false, false);
+		}else{
+			character.Move(Vector3.zero, false, false);
+		}
+		
 	}
 }
